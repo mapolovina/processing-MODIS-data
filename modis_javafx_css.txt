@@ -1,0 +1,150 @@
+ 1 @CHARSET "UTF-8";
+2 
+3 .tab-pane .tab{
+4         -fx-font-size: 13.0px;
+5         -fx-font-family: "Times New Roman";
+6         -fx-background-color: 
+7                 linear-gradient(#f0ff35, #a9ff00),
+8                 radial-gradient(center 50.0% -40.0%, radius 200.0%, #b8ee36 45.0%, #80c800 50.0%);
+9         -fx-background-radius: 6.0, 5.0;
+10         -fx-background-insets: 0.0, 1.0;
+11         -fx-effect: dropshadow(three-pass-box, rgba(0.0,0.0,0.0,0.0,4.0), 5.0, 0.0, 0.0, 1.0);
+12         -fx-text-fill: #395306;
+13 
+14         }
+15         
+16 .tab-pane .tab:hover{
+17         -fx-opacity: 0.7;
+18 }
+19 
+20 .tab-pane .tab:selected{
+21         -fx-background-color: 
+22                 linear-gradient(#f0ff35, #a9ff00),
+23                 radial-gradient(center 50.0% -40.0%, radius 200.0%, #66cd00 45.0%, #76ee00 50.0%);
+24 }
+25 
+26 .tab-pane *.tab-header-background{
+27         -fx-background-color: #6e8b3d;
+28         -fx-border-color: transparent;
+29 }
+30 
+31 #hbox{
+32         -fx-background-color: 
+33                 linear-gradient(#f0ff35, #a9ff00),
+34                 radial-gradient(center 20.0% -40.0%, radius 230.0%, #eedc82 45.0%, #ffec8b 50.0%);
+35         -fx-padding: 20.0,10.0,20.0,10.0;
+36         -fx-border-color: transparent;
+37 }
+38 
+39 #naslov_id{
+40         -fx-font-style:italic;
+41         -fx-font-size: 30.0px;
+42         -fx-font-family: Garamond, sherif;
+43         -fx-effect: innershadow(three-pass-box, rgba(152.0,245.0,255.0,0.7), 6.0, 0.0, 5.0, 2.0); 
+44         
+45 }
+46 
+47 #button_down{
+48         -fx-padding: 8.0,15.0,15.0,15.0;
+49         -fx-background-insets: 0.0,0.0 0.0 5.0 0.0,0.0 0.0 6.0 0.0,0.0 0.0 7.0 0.0;
+50         -fx-background-radius: 8.0;
+51         -fx-background-color: 
+52                 linear-gradient(from 0.0% 93.0% to 0.0% 100.0%, #a34313 0.0%, #903b12 100.0%),
+53                         #9d4024,
+54                         #d86e3a,
+55                 radial-gradient(center 50.0% 50.0%, radius 100.0%, #d86e3a, #c54e2c);
+56         -fx-effect: dropshadow(gaussian, rgba(0.0,0.0,0.0,0.75), 4.0, 0.0, 0.0, 1.0);
+57         -fx-font-weight: bold;
+58         -fx-font-size: 1.1em;
+59 }
+60 
+61 #button_down:hover{
+62         -fx-background-color: 
+63                 linear-gradient(from 0.0% 93.0% to 0.0% 100.0%, #a34313 0.0%, #903b12 100.0%),
+64                         #9d4024,
+65                         #d86e3a,
+66                 radial-gradient(center 50.0% 50.0%, radius 100.0%, #ea7f4b, #c54e2c); 
+67 }
+68 
+69 
+70 #grupa{
+71         -fx-padding: 80.0,0.0,0.0,80.0;
+72         -fx-border-color: transparent;
+73         -fx-background-color: 
+74                 linear-gradient(#f0ff35, #a9ff00),
+75                 radial-gradient(center 30.0% -40.0%, radius 190.0%, #6e8b3d 45.0%, #a2cd5a 50.0%)
+76                 ;
+77         
+78 }
+79 
+80 #desno1{
+81         -fx-background-color: 
+82                 linear-gradient(#f0ff35, #a9ff00),
+83                 radial-gradient(center 20.0% -40.0%, radius 230.0%, #eedc82 45.0%, #ffec8b 50.0%);
+84         -fx-padding: 10.0;
+85         -fx-spacing: 30.0;
+86         -fx-alignment: center center;
+87         -fx-border-color: transparent;
+88 }
+89 
+90 #center_button{
+91         -fx-background-color: 
+92                 linear-gradient(#ffd65b, #e68400),
+93                 linear-gradient(#ffef84, #f2ba44),
+94                 linear-gradient(#ffea6a, #efaa22),
+95                 linear-gradient(#ffe657 0%, #f8c202 50%, #eea10b 100%),
+96                 linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+97         -fx-background-radius: 30;
+98         -fx-background-insets: 0,1,2,3,0;
+99         -fx-text-fill: #654b00;
+100         -fx-font-weight: bold;
+101         -fx-font-size: 14px;
+102         -fx-padding:5,10,5,10;
+103         }
+104         
+105 #center_button:hover{
+106         -fx-opacity: 0.7;
+107 }
+108         
+109 #all_text {
+110         -fx-font-style:italic;
+111         -fx-font-size: 15.0px;
+112         -fx-font-family: Garamond, sherif;
+113         -fx-font-weight: bold;
+114         -fx-padding: 10,10,10,10;
+115 }
+116 #all_text_naslov {
+117         -fx-font-style:italic;
+118         -fx-font-size: 20.0px;
+119         -fx-font-family: Garamond, sherif;
+120         -fx-font-weight: bold;
+121         -fx-padding: 10,10,10,10;
+122 }
+123 
+124 .progress-bar{
+125         -fx-border-color: green;
+126         -fx-padding: 2;
+127         -fx-progress-color: #9bcd9b;
+128         -fx-indeterminate-bar-animation-time: 4;
+129 }
+130 
+131 .progress-bar > .bar {
+132     -fx-background-color: 
+133         linear-gradient(from 0px .75em to .75em 0px, repeat, -fx-accent 0%, -fx-accent 49%,
+134         derive(-fx-accent, 30%) 50%, derive(-fx-accent, 30%) 99%);
+135 }
+136 
+137 #text_area {
+138         -fx-background-color: 
+139                 linear-gradient(#f0ff35, #a9ff00),
+140                 radial-gradient(center 30.0% -40.0%, radius 190.0%, #6e8b3d 45.0%, #a2cd5a 50.0%)
+141                 ;
+142         -fx-alignment: center center;
+143         -fx-font-family: Times New Roman;
+144         -fx-font-size: 12;      
+145         -fx-background-radius: 15 15 15 15;
+146 }
+147 
+148 #submit_box {
+149         -fx-padding: 10,10,10,10;
+150 }

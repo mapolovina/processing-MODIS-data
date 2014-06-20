@@ -1,0 +1,1030 @@
+1 package framework;
+2 
+3 import java.io.File;
+4 import java.io.FileOutputStream;
+5 import java.text.DateFormat;
+6 import java.text.SimpleDateFormat;
+7 import java.util.Date;
+8 import java.util.concurrent.TimeUnit;
+9
+10 import javafx.application.Application;
+11 import javafx.application.Platform;
+12 import javafx.concurrent.Task;
+13 import javafx.event.ActionEvent;
+14 import javafx.event.EventHandler;
+15 import javafx.geometry.Pos;
+16 import javafx.geometry.Side;
+17 import javafx.scene.Group;
+18 import javafx.scene.Scene;
+19 import javafx.scene.control.Button;
+20 import javafx.scene.control.Label;
+21 import javafx.scene.control.ProgressBar;
+22 import javafx.scene.control.Tab;
+23 import javafx.scene.control.TabPane;
+24 import javafx.scene.control.TextArea;
+25 import javafx.scene.layout.BorderPane;
+26 import javafx.scene.layout.GridPane;
+27 import javafx.scene.layout.HBox;
+28 import javafx.scene.layout.VBox;
+29 import javafx.stage.DirectoryChooser;
+30 import javafx.stage.FileChooser;
+31 import javafx.stage.Stage;
+32 
+33 import javax.swing.JOptionPane;
+34 
+35 import com.itextpdf.text.Document;
+36 import com.itextpdf.text.Paragraph;
+37 import com.itextpdf.text.Phrase;
+38 import com.itextpdf.text.pdf.PdfPCell;
+39 import com.itextpdf.text.pdf.PdfPTable;
+40 import com.itextpdf.text.pdf.PdfWriter;
+41 
+42 public class worker extends Application {
+43 
+44         public static void main(String[] args) {
+45                 launch(args);
+46         }
+47 
+48         public Stage primaryStage;
+49         // sredi\9anji dio
+50         // data/in(prvo)
+51         public String[] NazivModisa1;
+52         public String[] listOfFilesInPath1;
+53         int listaIN1;
+54         public Button dataIn1 = new Button("data/in/formatting");
+55         {
+56                 dataIn1.setOnAction(new EventHandler<ActionEvent>() {
+57                         @Override
+58                         public void handle(ActionEvent event) {
+59                                 DirectoryChooser directorychooserIN1 = new DirectoryChooser();
+60                                 directorychooserIN1.setTitle("Choose path for data/in");
+61                                 File fileIn1 = directorychooserIN1.showDialog(primaryStage);
+62                                 if (fileIn1 != null) {
+63                                         String pathIn1 = fileIn1.getPath();
+64                                         String pathInR1 = pathIn1.replace("\\", "/");
+65                                         File folderIn1 = new File(pathInR1);
+66                                         File[] listOfFilesIn1 = folderIn1.listFiles();
+67                                         listaIN1 = listOfFilesIn1.length;
+68                                         listOfFilesInPath1 = new String[listaIN1];
+69                                         for (int i = 0; i < listaIN1; i++) {
+70                                                 listOfFilesInPath1[i] = listOfFilesIn1[i].getPath()
+71                                                                 .replace("\\", "/").toString();
+72                                         }
+73                                         int Prvo1 = listOfFilesInPath1[0].length();
+74                                         int Drugo1 = Prvo1 - 4;
+75                                         NazivModisa1 = new String[listaIN1];
+76                                         for (int i = 0; i < listaIN1; i++) {
+77                                                 NazivModisa1[i] = listOfFilesInPath1[i].substring(
+78                                                                 pathInR1.length() + 1, Drugo1);
+79 
+80                                         }
+81 
+82                                 }
+83                         }
+84                 });
+85         }
+86 
+87         // data/out(prvo)
+88         public String[] listOfFilesOutPath1;
+89         public String[] listOfFilesInPathSGRD1_1;
+90         public String[] listOfFilesOutPathSGRD1_1;
+91         public String[] listOfFilesInPathSGRD2_1;
+92         public String[] listOfFilesOutPathSGRD2_1;
+93         public Button dataOut1 = new Button("data/out/formatting");
+94         {
+95                 dataOut1.setOnAction(new EventHandler<ActionEvent>() {
+96                         @Override
+97                         public void handle(ActionEvent event) {
+98                                 DirectoryChooser directorychooserOUT1 = new DirectoryChooser();
+99                                 directorychooserOUT1.setTitle("Choose path for data/out");
+100                                 File fileOUT1 = directorychooserOUT1.showDialog(primaryStage);
+101                                 if (fileOUT1 != null) {
+102                                         String pathOut1 = fileOUT1.getPath();
+103                                         String FilesOut1 = pathOut1.replace("\\", "/");
+104                                         int BrojNaziva1 = NazivModisa1.length;
+105                                         listOfFilesOutPath1 = new String[BrojNaziva1];
+106                                         listOfFilesInPathSGRD1_1 = new String[BrojNaziva1];
+107                                         listOfFilesOutPathSGRD1_1 = new String[BrojNaziva1];
+108                                         listOfFilesInPathSGRD2_1 = new String[BrojNaziva1];
+109                                         listOfFilesOutPathSGRD2_1 = new String[BrojNaziva1];
+110                                         for (int i = 0; i < BrojNaziva1; i++) {
+111                                                 listOfFilesOutPath1[i] = FilesOut1 + "/"
+112                                                                 + NazivModisa1[i] + ".gtiff";
+113                                                 listOfFilesInPathSGRD1_1[i] = FilesOut1 + "/"
+114                                                                 + NazivModisa1[i] + ".gtiff1";
+115                                                 listOfFilesOutPathSGRD1_1[i] = FilesOut1 + "/"
+116                                                                 + NazivModisa1[i] + "_a.sgrd";
+117                                                 listOfFilesInPathSGRD2_1[i] = FilesOut1 + "/"
+118                                                                 + NazivModisa1[i] + ".gtiff2";
+119                                                 listOfFilesOutPathSGRD2_1[i] = FilesOut1 + "/"
+120                                                                 + NazivModisa1[i] + "_b.sgrd";
+121 
+122                                         }
+123                                 }
+124                         }
+125                 });
+126         }
+127 
+128         // data/in(drugo)
+129         public String[] NazivModisa2;
+130         public String[] listOfFilesInPathSGRD1_2;
+131         public String[] listOfFilesInPathSGRD2_2;
+132         public String[] listOfFilesInPath2;
+133         public String pathInR2;
+134         int listaIN2;
+135         public Button dataIn2 = new Button("data/in/masking");
+136         {
+137                 dataIn2.setOnAction(new EventHandler<ActionEvent>() {
+138                         @Override
+139                         public void handle(ActionEvent event) {
+140                                 DirectoryChooser directorychooserIN2 = new DirectoryChooser();
+141                                 directorychooserIN2.setTitle("Choose path for data/in");
+142                                 File fileIn2 = directorychooserIN2.showDialog(primaryStage);
+143                                 if (fileIn2 != null) {
+144                                         String pathIn2 = fileIn2.getPath();
+145                                         pathInR2 = pathIn2.replace("\\", "/");
+146                                         File folderIn2 = new File(pathInR2);
+147                                         File[] listOfFilesIn2 = folderIn2.listFiles();
+148                                         listaIN2 = listOfFilesIn2.length;
+149                                         listOfFilesInPath2 = new String[listaIN2];
+150                                         NazivModisa2 = new String[(listaIN2 / 14)];
+151                                         for (int i = 0; i < listaIN2; i++) {
+152                                                 listOfFilesInPath2[i] = listOfFilesIn2[i].getPath()
+153                                                                 .replace("\\", "/").toString();
+154                                         }
+155                                         int Prvo2 = listOfFilesInPath2[0].length();
+156                                         int Drugo2 = Prvo2 - 7;
+157                                         int h = 0;
+158                                         for (int f = 5; f < listaIN2; f = f + 13) {
+159                                                 f = f + 1;
+160                                                 NazivModisa2[h] = listOfFilesInPath2[f].substring(
+161                                                                 pathInR2.length() + 1, Drugo2);
+162                                                 h++;
+163                                         }
+164                                         listOfFilesInPathSGRD1_2 = new String[(listaIN2 / 14)];
+165                                         listOfFilesInPathSGRD2_2 = new String[(listaIN2 / 14)];
+166                                         for (int j = 0; j < (listaIN2 / 14); j++) {
+167                                                 listOfFilesInPathSGRD1_2[j] = pathInR2 + "/"
+168                                                                 + NazivModisa2[j] + "_a.sgrd";
+169                                                 listOfFilesInPathSGRD2_2[j] = pathInR2 + "/"
+170                                                                 + NazivModisa2[j] + "_b.sgrd";
+171 
+172                                         }
+173                                 }
+174                         }
+175                 });
+176         }
+177 
+178         // mask
+179         public String maskpath;
+180         public Button datamask = new Button("mask");
+181         {
+182                 datamask.setOnAction(new EventHandler<ActionEvent>() {
+183                         @Override
+184                         public void handle(ActionEvent event) {
+185                                 FileChooser filechooser = new FileChooser();
+186                                 filechooser.setTitle("Choose mask");
+187                                 File maskfile = filechooser.showOpenDialog(primaryStage);
+188                                 maskpath = maskfile.getPath().replace("\\", "/").toString();
+189                         }
+190                 });
+191         }
+192 
+193         // data/out(drugo)
+194         public String[] listOfFilesOutPath2;
+195         public String[] listOfFilesOutPathSGRD1_2;
+196         public String[] listOfFilesOutPathSGRD2_2;
+197         public String[] listOfFilesOutPathSGRD3_2;
+198         public String[] listOfFilesOutPathSGRD4_2;
+199         public String[] listOfFilesInPathSGRD3_2;
+200         public String[] listOfFilesInPathSGRD4_2;
+201         public Button dataOut2 = new Button("data/out/masking");
+202         {
+203                 dataOut2.setOnAction(new EventHandler<ActionEvent>() {
+204                         @Override
+205                         public void handle(ActionEvent event) {
+206                                 DirectoryChooser directorychooserOUT2 = new DirectoryChooser();
+207                                 directorychooserOUT2.setTitle("Choose path for data/out");
+208                                 File fileOUT2 = directorychooserOUT2.showDialog(primaryStage);
+209                                 if (fileOUT2 != null) {
+210                                         String pathOut2 = fileOUT2.getPath();
+211                                         String FilesOut2 = pathOut2.replace("\\", "/");
+212                                         int BrojNaziva2 = NazivModisa2.length;
+213                                         listOfFilesOutPathSGRD1_2 = new String[BrojNaziva2];
+214                                         listOfFilesOutPathSGRD2_2 = new String[BrojNaziva2];
+215                                         listOfFilesOutPathSGRD3_2 = new String[BrojNaziva2];
+216                                         listOfFilesOutPathSGRD4_2 = new String[BrojNaziva2];
+217                                         listOfFilesInPathSGRD3_2 = new String[BrojNaziva2];
+218                                         listOfFilesInPathSGRD4_2 = new String[BrojNaziva2];
+219                                         listOfFilesOutPath2 = new String[BrojNaziva2];
+220                                         for (int i = 0; i < BrojNaziva2; i++) {
+221                                                 listOfFilesOutPathSGRD1_2[i] = FilesOut2 + "/"
+222                                                                 + NazivModisa2[i] + "_c.sgrd";
+223                                                 listOfFilesOutPathSGRD2_2[i] = FilesOut2 + "/"
+224                                                                 + NazivModisa2[i] + "_d.sgrd";
+225                                                 listOfFilesOutPathSGRD3_2[i] = FilesOut2 + "/"
+226                                                                 + NazivModisa2[i] + "_e.sgrd";
+227                                                 listOfFilesOutPathSGRD4_2[i] = FilesOut2 + "/"
+228                                                                 + NazivModisa2[i] + "_f.sgrd";
+229                                                 listOfFilesInPathSGRD3_2[i] = FilesOut2 + "/"
+230                                                                 + NazivModisa2[i] + "_c.sgrd";
+231                                                 listOfFilesInPathSGRD4_2[i] = FilesOut2 + "/"
+232                                                                 + NazivModisa2[i] + "_d.sgrd";
+233 
+234                                         }
+235                                 }
+236                         }
+237                 });
+238         }
+239 
+240         // data/in(trece)
+241         public String[] NazivModisa3;
+242         public String[] listOfFilesInPathSGRD1_3;
+243         public String[] listOfFilesInPathSGRD2_3;
+244         public String[] listOfFilesInPath3;
+245         public String pathInR3;
+246         int listaIN3;
+247         public Button dataIn3 = new Button("data/in/NDVI");
+248         {
+249                 dataIn3.setOnAction(new EventHandler<ActionEvent>() {
+250                         @Override
+251                         public void handle(ActionEvent event) {
+252                                 DirectoryChooser directorychooserIN3 = new DirectoryChooser();
+253                                 directorychooserIN3.setTitle("Choose path for data/in");
+254                                 File fileIn3 = directorychooserIN3.showDialog(primaryStage);
+255                                 if (fileIn3 != null) {
+256                                         String pathIn3 = fileIn3.getPath();
+257                                         pathInR3 = pathIn3.replace("\\", "/");
+258                                         File folderIn3 = new File(pathInR3);
+259                                         File[] listOfFilesIn3 = folderIn3.listFiles();
+260                                         listaIN3 = listOfFilesIn3.length;
+261                                         listOfFilesInPath3 = new String[listaIN3];
+262                                         NazivModisa3 = new String[(listaIN3 / 16)];
+263                                         for (int i = 0; i < listaIN3; i++) {
+264                                                 listOfFilesInPath3[i] = listOfFilesIn3[i].getPath()
+265                                                                 .replace("\\", "/").toString();
+266                                         }
+267                                         int Prvo3 = listOfFilesInPath3[0].length();
+268                                         int Drugo3 = Prvo3 - 7;
+269                                         int h = 0;
+270                                         for (int f = 0; f < listaIN3; f = f + 16) {
+271                                                 NazivModisa3[h] = listOfFilesInPath3[f].substring(
+272                                                                 pathInR3.length() + 1, Drugo3);
+273                                                 h++;
+274                                         }
+275                                         listOfFilesInPathSGRD1_3 = new String[(listaIN3 / 16)];
+276                                         listOfFilesInPathSGRD2_3 = new String[(listaIN3 / 16)];
+277                                         for (int j = 0; j < (listaIN3 / 16); j++) {
+278                                                 listOfFilesInPathSGRD1_3[j] = pathInR3 + "/"
+279                                                                 + NazivModisa3[j] + "_e.sgrd";
+280                                                 listOfFilesInPathSGRD2_3[j] = pathInR3 + "/"
+281                                                                 + NazivModisa3[j] + "_f.sgrd";
+282 
+283                                         }
+284                                 }
+285                         }
+286                 });
+287         }
+288 
+289         // data/out(trece)
+290         public String[] listOfFilesOutPath3;
+291         public String[] listOfFilesOutPathSGRD_3;
+292         public Button dataOut3 = new Button("data/out/NDVI");
+293         {
+294                 dataOut3.setOnAction(new EventHandler<ActionEvent>() {
+295                         @Override
+296                         public void handle(ActionEvent event) {
+297                                 DirectoryChooser directorychooserOUT3 = new DirectoryChooser();
+298                                 directorychooserOUT3.setTitle("Choose path for data/out");
+299                                 File fileOUT3 = directorychooserOUT3.showDialog(primaryStage);
+300                                 if (fileOUT3 != null) {
+301                                         String pathOut3 = fileOUT3.getPath();
+302                                         String FilesOut3 = pathOut3.replace("\\", "/");
+303                                         int BrojNaziva3 = NazivModisa3.length;
+304                                         listOfFilesOutPathSGRD_3 = new String[BrojNaziva3];
+305                                         listOfFilesOutPath3 = new String[BrojNaziva3];
+306                                         for (int i = 0; i < BrojNaziva3; i++) {
+307                                                 listOfFilesOutPathSGRD_3[i] = FilesOut3 + "/"
+308                                                                 + NazivModisa3[i] + "_ndvi_slopebased.sgrd";
+309 
+310                                         }
+311                                 }
+312                         }
+313                 });
+314         }
+315 
+316         // progressbar's
+317         public ProgressBar progressBar1 = new ProgressBar();
+318         {
+319                 progressBar1.setLayoutX(100);
+320                 progressBar1.setLayoutY(20);
+321                 progressBar1.setProgress(0);
+322         }
+323         public ProgressBar progressBar2 = new ProgressBar();
+324         {
+325                 progressBar2.setLayoutX(100);
+326                 progressBar2.setLayoutY(20);
+327                 progressBar2.setProgress(0);
+328         }
+329         public ProgressBar progressBar3 = new ProgressBar();
+330         {
+331                 progressBar3.setLayoutX(100);
+332                 progressBar3.setLayoutY(20);
+333                 progressBar3.setProgress(0);
+334         }
+335         public ProgressBar progressBar4 = new ProgressBar();
+336         {
+337                 progressBar4.setLayoutX(100);
+338                 progressBar4.setLayoutY(20);
+339                 progressBar4.setProgress(0);
+340         }
+341 
+342         // label's
+343         public Label naslov_tab1 = new Label("Change format .hdf to .sgrd");
+344         public Label postotak1 = new Label(".hdf to .gtiff :   ");
+345         public Label postotakBroj1 = new Label("0 % --- 0:0:0  ");
+346         public Label postotak2 = new Label("   .gtiff to .sgrd :");
+347         public Label postotakBroj2 = new Label("  0 % --- 0:0:0");
+348         public Label naslov_tab2 = new Label("Change size from one raster to another");
+349         public Label postotak3 = new Label("Changing the size :");
+350         public Label postotakBroj3 = new Label("0 % --- 0:0:0");
+351         public Label naslov_tab3 = new Label(
+352                         "Get the result! -- NDVI(slope based) --");
+353         public Label postotak4 = new Label(
+354                         "Getting the Normalized Difference Vegetation Index :");
+355         public Label postotakBroj4 = new Label("0 % --- 0:0:0");
+356 
+357         // exec(...
+358         public String PrviDioNaredbe = "gdal_translate.exe -ot Float32 -of gtiff -sds ";
+359         public String DrugiDioNaredbe1 = "saga_cmd io_gdal 0 -FILES=";
+360         public String DrugiDioNaredbe2 = " -TRANSFORM";
+361         public String TreciDioNaredbe = "saga_cmd grid_tools 24 -GRID=";
+362         public String CetvrtiDioNaredbe = "saga_cmd grid_tools 17 -INPUT=";
+363         public String PetiDioNaredbe = "saga_cmd imagery_tools 1 -NIR=";
+364 
+365         // tablice!!!
+366         public String operacije_1 = "";
+367         public String operacije_2 = "";
+368         public String operacije_3 = "";
+369         public String operacije;
+370         public String prva_i_zadnja_snimka;
+371         public String broj_snimki;
+372         public TextArea area;
+373         public String text;
+374         public String[] NazivModisa;
+375         public int d;
+376 
+377         // var "help"
+378         public double now;
+379 
+380         public void start(final Stage primaryStage) throws Exception {
+381 
+382                 primaryStage.setTitle("Modis <skripta>");
+383 
+384                 // lijevo
+385                 TabPane tabPane = new TabPane();
+386                 tabPane.setSide(Side.LEFT);
+387                 final Tab formatting = new Tab("Formatting");
+388                 final Tab masking = new Tab("Masking");
+389                 final Tab ndvi = new Tab("NDVI");
+390 
+391                 // desno
+392                 VBox vbox2 = new VBox();
+393                 Button gdal_download = new Button("Get GDAL!");
+394                 gdal_download.setAlignment(Pos.CENTER);
+395                 gdal_download.setId("button_down");
+396                 Button saga_download = new Button("Get SAGA!");
+397                 saga_download.setAlignment(Pos.CENTER);
+398                 saga_download.setId("button_down");
+399                 vbox2.getChildren().addAll(gdal_download, saga_download);
+400                 vbox2.setId("desno1");
+401 
+402                 // gore
+403                 Label naslov = new Label();
+404                 naslov.setText("Obrada MODIS podataka");
+405                 naslov.setId("naslov_id");
+406                 HBox hbox2 = new HBox();
+407                 hbox2.getChildren().add(naslov);
+408 
+409                 // dolje
+410                 HBox hbox1 = new HBox();
+411                 hbox1.setSpacing(10);
+412                 Button save = new Button("Save process to pdf");
+413                 save.setId("button_down");
+414                 Button finish = new Button("Exit");
+415                 finish.setId("button_down");
+416                 hbox1.getChildren().addAll(save, finish);
+417 
+418                 // finish button
+419                 finish.setOnAction(new EventHandler<ActionEvent>() {
+420                         public void handle(ActionEvent event) {
+421                                 Platform.exit();
+422                                 System.exit(0);
+423                         }
+424                 });
+425 
+426                 // gdal download
+427                 gdal_download.setOnAction(new EventHandler<ActionEvent>() {
+428                         public void handle(ActionEvent t) {
+429                                 getHostServices()
+430                                                 .showDocument(
+431                                                                 "http://trac.osgeo.org/gdal/wiki/DownloadingGdalBinaries");
+432                         }
+433                 });
+434 
+435                 // saga download
+436                 saga_download.setOnAction(new EventHandler<ActionEvent>() {
+437                         public void handle(ActionEvent f) {
+438                                 getHostServices().showDocument(
+439                                                 "http://sourceforge.net/projects/saga-gis/files/");
+440                         }
+441                 });
+442 
+443                 // process1
+444                 final Button process1 = new Button("process");
+445                 process1.setOnAction(new EventHandler<ActionEvent>() {
+446                         public void handle(ActionEvent t) {
+447                                 try {
+448                                         final int brojac = listOfFilesInPath1.length;
+449                                         final long[] startTime = new long[brojac];
+450                                         final long[] endTime = new long[brojac];
+451                                         final long[] totalTime = new long[brojac];
+452                                         Task<Void> task1 = new Task<Void>() {
+453                                                 public Void call() {
+454                                                         Process[] process1 = new Process[brojac];
+455                                                         for (int i = 0; i < brojac; i++) {
+456                                                                 if (PrviDioNaredbe != null
+457                                                                                 && listOfFilesInPath1[i] != null
+458                                                                                 && listOfFilesOutPath1[i] != null) {
+459                                                                         try {
+460                                                                                 startTime[i] = System
+461                                                                                                 .currentTimeMillis();
+462                                                                                 process1[i] = Runtime
+463                                                                                                 .getRuntime()
+464                                                                                                 .exec(PrviDioNaredbe
+465                                                                                                                 + listOfFilesInPath1[i]
+466                                                                                                                 + " "
+467                                                                                                                 + listOfFilesOutPath1[i]);
+468                                                                                 process1[i].waitFor();
+469                                                                                 endTime[i] = System.currentTimeMillis();
+470                                                                                 totalTime[i] = endTime[i]
+471                                                                                                 - startTime[i];
+472                                                                                 now = (100 / brojac) * (i + 1);
+473                                                                                 updateProgress(now, 100);
+474                                                                                 int suma = 0;
+475                                                                                 for (long j : totalTime) {
+476                                                                                         suma += j;
+477                                                                                 }
+478                                                                                 int timeToFinish = ((suma / (i + 1)) * brojac)
+479                                                                                                 - (suma);
+480                                                                                 String vrijeme = String
+481                                                                                                 .format("%02d:%02d:%02d",
+482                                                                                                                 TimeUnit.MILLISECONDS
+483                                                                                                                                 .toHours(timeToFinish),
+484                                                                                                                 TimeUnit.MILLISECONDS
+485                                                                                                                                 .toMinutes(timeToFinish)
+486                                                                                                                                 - TimeUnit.HOURS
+487                                                                                                                                                 .toMinutes(TimeUnit.MILLISECONDS
+488                                                                                                                                                                 .toHours(timeToFinish)),
+489                                                                                                                 TimeUnit.MILLISECONDS
+490                                                                                                                                 .toSeconds(timeToFinish)
+491                                                                                                                                 - TimeUnit.MINUTES
+492                                                                                                                                                 .toSeconds(TimeUnit.MILLISECONDS
+493                                                                                                                                                                 .toMinutes(timeToFinish)));
+494                                                                                 if (now == 100) {
+495                                                                                         updateMessage("Done!");
+496                                                                                 } else {
+497                                                                                         updateMessage(Double.toString(now)
+498                                                                                                         + " % --- " + vrijeme + "  ");
+499                                                                                 }
+500 
+501                                                                         } catch (Exception el) {
+502                                                                                 el.printStackTrace();
+503                                                                                 break;
+504                                                                         }
+505                                                                 }
+506                                                         }
+507                                                         return null;
+508                                                 }
+509                                         };
+510                                         Thread prvi = new Thread(task1);
+511                                         prvi.setDaemon(true);
+512                                         prvi.start();
+513 
+514                                         progressBar1.progressProperty().bind(
+515                                                         task1.progressProperty());
+516                                         postotakBroj1.textProperty().bind(task1.messageProperty());
+517 
+518                                         Task<Void> task2 = new Task<Void>() {
+519                                                 public Void call() {
+520                                                         Process[] processSGRD1_1 = new Process[brojac];
+521                                                         Process[] processSGRD2_1 = new Process[brojac];
+522                                                         for (int i = 0; i < brojac; i++) {
+523                                                                 try {
+524                                                                         startTime[i] = System.currentTimeMillis();
+525                                                                         processSGRD1_1[i] = Runtime
+526                                                                                         .getRuntime()
+527                                                                                         .exec(new String[] {
+528                                                                                                         "cmd.exe",
+529                                                                                                         "/c",
+530                                                                                                         DrugiDioNaredbe1
+531                                                                                                                         + listOfFilesInPathSGRD1_1[i]
+532                                                                                                                         + " -GRIDS="
+533                                                                                                                         + listOfFilesOutPathSGRD1_1[i]
+534                                                                                                                         + DrugiDioNaredbe2 });
+535                                                                         processSGRD1_1[i].waitFor();
+536                                                                         processSGRD2_1[i] = Runtime
+537                                                                                         .getRuntime()
+538                                                                                         .exec(new String[] {
+539                                                                                                         "cmd.exe",
+540                                                                                                         "/c",
+541                                                                                                         DrugiDioNaredbe1
+542                                                                                                                         + listOfFilesInPathSGRD2_1[i]
+543                                                                                                                         + " -GRIDS="
+544                                                                                                                         + listOfFilesOutPathSGRD2_1[i]
+545                                                                                                                         + DrugiDioNaredbe2 });
+546                                                                         processSGRD2_1[i].waitFor();
+547                                                                         endTime[i] = System.currentTimeMillis();
+548                                                                         totalTime[i] = endTime[i] - startTime[i];
+549                                                                         now = (100 / brojac) * (i + 1);
+550                                                                         updateProgress(now, 100);
+551                                                                         int suma = 0;
+552                                                                         for (long j : totalTime) {
+553                                                                                 suma += j;
+554                                                                         }
+555                                                                         int timeToFinish = ((suma / (i + 1)) * brojac)
+556                                                                                         - (suma);
+557                                                                         String vrijeme = String
+558                                                                                         .format("%02d:%02d:%02d",
+559                                                                                                         TimeUnit.MILLISECONDS
+560                                                                                                                         .toHours(timeToFinish),
+561                                                                                                         TimeUnit.MILLISECONDS
+562                                                                                                                         .toMinutes(timeToFinish)
+563                                                                                                                         - TimeUnit.HOURS
+564                                                                                                                                         .toMinutes(TimeUnit.MILLISECONDS
+565                                                                                                                                                         .toHours(timeToFinish)),
+566                                                                                                         TimeUnit.MILLISECONDS
+567                                                                                                                         .toSeconds(timeToFinish)
+568                                                                                                                         - TimeUnit.MINUTES
+569                                                                                                                                         .toSeconds(TimeUnit.MILLISECONDS
+570                                                                                                                                                         .toMinutes(timeToFinish)));
+571                                                                         if (now == 100) {
+572                                                                                 updateMessage("Done!");
+573                                                                         } else {
+574                                                                                 updateMessage("  " + Double.toString(now)
+575                                                                                                 + " % --- " + vrijeme);
+576                                                                         }
+577                                                                 } catch (Exception l) {
+578                                                                         l.printStackTrace();
+579                                                                         break;
+580                                                                 }
+581                                                         }
+582                                                         return null;
+583                                                 }
+584                                         };
+585                                         Thread drugi = new Thread(task2);
+586                                         drugi.setDaemon(true);
+587                                         drugi.start();
+588 
+589                                         progressBar2.progressProperty().bind(
+590                                                         task2.progressProperty());
+591                                         postotakBroj2.textProperty().bind(task2.messageProperty());
+592                                         operacije_1 = "promjena formata ";
+593                                         int broj = NazivModisa1.length;
+594                                         NazivModisa = new String[broj];
+595                                         for (int d = 0; d < broj; d++) {
+596                                                 NazivModisa[d] = NazivModisa1[d];
+597                                         }
+598                                         d = broj - 1;
+599                                 }
+600 
+601                                 catch (Exception e) {
+602                                         e.printStackTrace();
+603                                 }
+604                         }
+605                 });
+606 
+607                 // process2
+608                 final Button process2 = new Button("process");
+609                 process2.setOnAction(new EventHandler<ActionEvent>() {
+610                         public void handle(ActionEvent t) {
+611                                 try {
+612                                         final int brojac = (listOfFilesInPath2.length / 14);
+613                                         final long[] startTime = new long[brojac];
+614                                         final long[] endTime = new long[brojac];
+615                                         final long[] totalTime = new long[brojac];
+616                                         Task<Void> task3 = new Task<Void>() {
+617                                                 public Void call() {
+618                                                         Process[] processSGRD1_2 = new Process[brojac];
+619                                                         Process[] processSGRD2_2 = new Process[brojac];
+620                                                         Process[] processSGRD3_2 = new Process[brojac];
+621                                                         Process[] processSGRD4_2 = new Process[brojac];
+622                                                         for (int i = 0; i < brojac; i++) {
+623                                                                 if (TreciDioNaredbe != null
+624                                                                                 && CetvrtiDioNaredbe != null
+625                                                                                 && listOfFilesInPathSGRD1_2[i] != null
+626                                                                                 && listOfFilesInPathSGRD2_2[i] != null
+627                                                                                 && listOfFilesOutPathSGRD1_2[i] != null
+628                                                                                 && listOfFilesOutPathSGRD2_2[i] != null) {
+629                                                                         try {
+630                                                                                 startTime[i] = System
+631                                                                                                 .currentTimeMillis();
+632                                                                                 processSGRD1_2[i] = Runtime
+633                                                                                                 .getRuntime()
+634                                                                                                 .exec(new String[] {
+635                                                                                                                 "cmd.exe",
+636                                                                                                                 "/c",
+637                                                                                                                 TreciDioNaredbe
+638                                                                                                                                 + listOfFilesInPathSGRD1_2[i]
+639                                                                                                                                 + " -MASK="
+640                                                                                                                                 + maskpath
+641                                                                                                                                 + " -MASKED="
+642                                                                                                                                 + listOfFilesOutPathSGRD1_2[i] });
+643                                                                                 processSGRD1_2[i].waitFor();
+644                                                                                 processSGRD2_2[i] = Runtime
+645                                                                                                 .getRuntime()
+646                                                                                                 .exec(new String[] {
+647                                                                                                                 "cmd.exe",
+648                                                                                                                 "/c",
+649                                                                                                                 TreciDioNaredbe
+650                                                                                                                                 + listOfFilesInPathSGRD2_2[i]
+651                                                                                                                                 + " -MASK="
+652                                                                                                                                 + maskpath
+653                                                                                                                                 + " -MASKED="
+654                                                                                                                                 + listOfFilesOutPathSGRD2_2[i] });
+655                                                                                 processSGRD2_2[i].waitFor();
+656                                                                                 processSGRD3_2[i] = Runtime
+657                                                                                                 .getRuntime()
+658                                                                                                 .exec(new String[] {
+659                                                                                                                 "cmd.exe",
+660                                                                                                                 "/c",
+661                                                                                                                 CetvrtiDioNaredbe
+662                                                                                                                                 + listOfFilesInPathSGRD3_2[i]
+663                                                                                                                                 + " -OUTPUT="
+664                                                                                                                                 + listOfFilesOutPathSGRD3_2[i] });
+665                                                                                 processSGRD3_2[i].waitFor();
+666                                                                                 processSGRD4_2[i] = Runtime
+667                                                                                                 .getRuntime()
+668                                                                                                 .exec(new String[] {
+669                                                                                                                 "cmd.exe",
+670                                                                                                                 "/c",
+671                                                                                                                 CetvrtiDioNaredbe
+672                                                                                                                                 + listOfFilesInPathSGRD4_2[i]
+673                                                                                                                                 + " -OUTPUT="
+674                                                                                                                                 + listOfFilesOutPathSGRD4_2[i] });
+675                                                                                 processSGRD4_2[i].waitFor();
+676                                                                                 endTime[i] = System.currentTimeMillis();
+677                                                                                 totalTime[i] = endTime[i]
+678                                                                                                 - startTime[i];
+679                                                                                 now = (100 / brojac) * (i + 1);
+680                                                                                 updateProgress(now, 100);
+681                                                                                 int suma = 0;
+682                                                                                 for (long j : totalTime) {
+683                                                                                         suma += j;
+684                                                                                 }
+685                                                                                 int timeToFinish = ((suma / (i + 1)) * brojac)
+686                                                                                                 - (suma);
+687                                                                                 String vrijeme = String
+688                                                                                                 .format("%02d:%02d:%02d",
+689                                                                                                                 TimeUnit.MILLISECONDS
+690                                                                                                                                 .toHours(timeToFinish),
+691                                                                                                                 TimeUnit.MILLISECONDS
+692                                                                                                                                 .toMinutes(timeToFinish)
+693                                                                                                                                 - TimeUnit.HOURS
+694                                                                                                                                                 .toMinutes(TimeUnit.MILLISECONDS
+695                                                                                                                                                                 .toHours(timeToFinish)),
+696                                                                                                                 TimeUnit.MILLISECONDS
+697                                                                                                                                 .toSeconds(timeToFinish)
+698                                                                                                                                 - TimeUnit.MINUTES
+699                                                                                                                                                 .toSeconds(TimeUnit.MILLISECONDS
+700                                                                                                                                                                 .toMinutes(timeToFinish)));
+701                                                                                 if (now >= 99) {
+702                                                                                         updateMessage("Done!");
+703                                                                                 } else {
+704                                                                                         updateMessage(Double.toString(now)
+705                                                                                                         + " % --- " + vrijeme);
+706                                                                                 }
+707 
+708                                                                         } catch (Exception el) {
+709                                                                                 el.printStackTrace();
+710                                                                                 break;
+711                                                                         }
+712                                                                 }
+713                                                         }
+714                                                         return null;
+715                                                 }
+716                                         };
+717                                         Thread treci = new Thread(task3);
+718                                         treci.setDaemon(true);
+719                                         treci.start();
+720 
+721                                         progressBar3.progressProperty().bind(
+722                                                         task3.progressProperty());
+723                                         postotakBroj3.textProperty().bind(task3.messageProperty());
+724                                         operacije_2 = "promjena velicine snimke ";
+725                                         int broj = NazivModisa2.length;
+726                                         NazivModisa = new String[broj];
+727                                         for (int d = 0; d < broj; d++) {
+728                                                 NazivModisa[d] = NazivModisa2[d];
+729                                         }
+730                                         d = broj - 1;
+731                                 } catch (Exception e) {
+732                                         e.printStackTrace();
+733                                 }
+734                         }
+735                 });
+736 
+737                 // process3
+738                 final Button process3 = new Button("process");
+739                 process3.setOnAction(new EventHandler<ActionEvent>() {
+740                         public void handle(ActionEvent t) {
+741                                 try {
+742                                         final int brojac = (listOfFilesInPath3.length / 16);
+743                                         final long[] startTime = new long[brojac];
+744                                         final long[] endTime = new long[brojac];
+745                                         final long[] totalTime = new long[brojac];
+746                                         Task<Void> task4 = new Task<Void>() {
+747                                                 public Void call() {
+748                                                         Process[] process_ndvi = new Process[brojac];
+749                                                         for (int i = 0; i < brojac; i++) {
+750                                                                 if (PetiDioNaredbe != null
+751                                                                                 && listOfFilesInPathSGRD1_3[i] != null
+752                                                                                 && listOfFilesInPathSGRD2_3[i] != null
+753                                                                                 && listOfFilesOutPathSGRD_3[i] != null) {
+754                                                                         try {
+755                                                                                 startTime[i] = System
+756                                                                                                 .currentTimeMillis();
+757                                                                                 process_ndvi[i] = Runtime
+758                                                                                                 .getRuntime()
+759                                                                                                 .exec(new String[] {
+760                                                                                                                 "cmd.exe",
+761                                                                                                                 "/c",
+762                                                                                                                 PetiDioNaredbe
+763                                                                                                                                 + listOfFilesInPathSGRD1_3[i]
+764                                                                                                                                 + " -RED="
+765                                                                                                                                 + listOfFilesInPathSGRD2_3[i]
+766                                                                                                                                 + " -NDVI="
+767                                                                                                                                 + listOfFilesOutPathSGRD_3[i] });
+768                                                                                 process_ndvi[i].waitFor();
+769                                                                                 endTime[i] = System.currentTimeMillis();
+770                                                                                 totalTime[i] = endTime[i]
+771                                                                                                 - startTime[i];
+772                                                                                 now = (100 / brojac) * (i + 1);
+773                                                                                 updateProgress(now, 100);
+774                                                                                 int suma = 0;
+775                                                                                 for (long j : totalTime) {
+776                                                                                         suma += j;
+777                                                                                 }
+778                                                                                 int timeToFinish = ((suma / (i + 1)) * brojac)
+779                                                                                                 - (suma);
+780                                                                                 String vrijeme = String
+781                                                                                                 .format("%02d:%02d:%02d",
+782                                                                                                                 TimeUnit.MILLISECONDS
+783                                                                                                                                 .toHours(timeToFinish),
+784                                                                                                                 TimeUnit.MILLISECONDS
+785                                                                                                                                 .toMinutes(timeToFinish)
+786                                                                                                                                 - TimeUnit.HOURS
+787                                                                                                                                                 .toMinutes(TimeUnit.MILLISECONDS
+788                                                                                                                                                                 .toHours(timeToFinish)),
+789                                                                                                                 TimeUnit.MILLISECONDS
+790                                                                                                                                 .toSeconds(timeToFinish)
+791                                                                                                                                 - TimeUnit.MINUTES
+792                                                                                                                                                 .toSeconds(TimeUnit.MILLISECONDS
+793                                                                                                                                                                 .toMinutes(timeToFinish)));
+794                                                                                 if (now >= 99) {
+795                                                                                         updateMessage("Done!");
+796                                                                                 } else {
+797                                                                                         updateMessage(Double.toString(now)
+798                                                                                                         + " % --- " + vrijeme);
+799                                                                                 }
+800 
+801                                                                         } catch (Exception el) {
+802                                                                                 el.printStackTrace();
+803                                                                                 break;
+804                                                                         }
+805                                                                 }
+806                                                         }
+807                                                         return null;
+808                                                 }
+809                                         };
+810                                         Thread cetvrti = new Thread(task4);
+811                                         cetvrti.setDaemon(true);
+812                                         cetvrti.start();
+813 
+814                                         progressBar4.progressProperty().bind(
+815                                                         task4.progressProperty());
+816                                         postotakBroj4.textProperty().bind(task4.messageProperty());
+817                                         operacije_3 = "NDVI";
+818                                         int broj = NazivModisa3.length;
+819                                         NazivModisa = new String[broj];
+820                                         for (int d = 0; d < broj; d++) {
+821                                                 NazivModisa[d] = NazivModisa3[d];
+822                                         }
+823                                         d = broj - 1;
+824                                 } catch (Exception e) {
+825                                         e.printStackTrace();
+826                                 }
+827                         }
+828                 });
+829 
+830                 // save button
+831                 save.setOnAction(new EventHandler<ActionEvent>() {
+832                         @Override
+833                         public void handle(ActionEvent event) {
+834                                 prva_i_zadnja_snimka = NazivModisa[0] + "\n" + NazivModisa[d];
+835                                 broj_snimki = Integer.toString(d + 1);
+836                                 operacije = operacije_1 + operacije_2 + operacije_3;
+837                                 FileChooser filechooser = new FileChooser();
+838                                 filechooser.setTitle("Save pdf name");
+839                                 FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter(
+840                                                 "PDF files (*.pdf)", "*.pdf");
+841                                 filechooser.getExtensionFilters().add(filter);
+842                                 File pdf_data = filechooser.showSaveDialog(primaryStage);
+843                                 try {
+844                                         if (pdf_data != null) {
+845                                                 String path = pdf_data.getPath();
+846                                                 String final_path = path.replace("\\", "/");
+847 
+848                                                 final Document pdf = new Document();
+849                                                 PdfWriter.getInstance(pdf, new FileOutputStream(
+850                                                                 final_path + ".pdf"));
+851                                                 pdf.open();
+852 
+853                                                 // datum
+854                                                 DateFormat format = new SimpleDateFormat(
+855                                                                 "yyyy/MM/dd HH:mm:ss");
+856                                                 Date date = new Date();
+857                                                 final String prvi_dio = format.format(date) + "\n";
+858 
+859                                                 // table
+860                                                 final PdfPTable table = new PdfPTable(3);
+861 
+862                                                 table.addCell("Snimke (prva i zadnja)");
+863                                                 table.addCell("Operacije");
+864                                                 table.addCell("Broj snimki");
+865 
+866                                                 PdfPCell cell1_b;
+867                                                 cell1_b = new PdfPCell(new Phrase(prva_i_zadnja_snimka));
+868                                                 cell1_b.setColspan(1);
+869                                                 table.addCell(cell1_b);
+870 
+871                                                 PdfPCell cell2_b;
+872                                                 cell2_b = new PdfPCell(new Phrase(operacije));
+873                                                 cell2_b.setColspan(1);
+874                                                 table.addCell(cell2_b);
+875 
+876                                                 PdfPCell cell3_b;
+877                                                 cell3_b = new PdfPCell(new Phrase(broj_snimki));
+878                                                 cell3_b.setColspan(1);
+879                                                 table.addCell(cell3_b);
+880 
+881                                                 // napomene
+882                                                 final Stage new_stage = new Stage();
+883                                                 new_stage.setTitle("Notes for pdf");
+884                                                 area = new TextArea();
+885                                                 area.setPrefSize(600, 250);
+886                                                 area.setId("text_area");
+887                                                 Button submit = new Button("Save notes");
+888                                                 submit.setId("center_button");
+889                                                 HBox submit_box = new HBox();
+890                                                 submit_box.getChildren().addAll(submit);
+891                                                 submit_box.setId("submit_box");
+892                                                 submit_box.setAlignment(Pos.CENTER_RIGHT);
+893                                                 submit.setOnAction(new EventHandler<ActionEvent>() {
+894 
+895                                                         @Override
+896                                                         public void handle(ActionEvent eh) {
+897 
+898                                                                 try {
+899                                                                         new_stage.close();
+900                                                                         String plus = "Napomene:";
+901                                                                         text = plus + "\n"
+902                                                                                         + area.getText().toString();
+903                                                                         // spajanje
+904                                                                         pdf.add(new Paragraph(prvi_dio + "\n"));
+905                                                                         pdf.add(table);
+906                                                                         pdf.add(new Paragraph("\n"));
+907                                                                         pdf.add(new Paragraph(text));
+908                                                                         pdf.close();
+909 
+910                                                                 } catch (Exception e) {
+911                                                                         e.printStackTrace();
+912                                                                 }
+913                                                         }
+914                                                 });
+915                                                 VBox red = new VBox();
+916                                                 red.getChildren().addAll(area, submit_box);
+917                                                 GridPane new_pane = new GridPane();
+918                                                 new_pane.getChildren().addAll(red);
+919                                                 Scene new_scene = new Scene(new_pane,600,300);
+920                                                 new_scene.getStylesheets().add(
+921                                                                 this.getClass().getResource("stile.css").toExternalForm());
+922                                                 new_stage.setScene(new_scene);
+923                                                 new_stage.show();
+924 
+925                                         }
+926                                 } catch (Exception i) {
+927                                         JOptionPane.showMessageDialog(null, i,
+928                                                         "Pogre\9aka prilikom stvaranja pdf-a!",
+929                                                         JOptionPane.ERROR_MESSAGE);
+930                                 }
+931                         }
+932                 });
+933 
+934                 // center
+935                 HBox hbox3 = new HBox();
+936                 hbox3.setAlignment(Pos.CENTER);
+937                 HBox hbox4 = new HBox();
+938                 hbox4.setAlignment(Pos.CENTER);
+939                 HBox hbox5 = new HBox();
+940                 hbox5.setAlignment(Pos.CENTER);
+941                 hbox3.getChildren().addAll(dataIn1, dataOut1);
+942                 hbox4.getChildren().addAll(dataIn2, datamask, dataOut2);
+943                 hbox5.getChildren().addAll(dataIn3, dataOut3);
+944                 HBox hbox6 = new HBox();
+945                 hbox6.setAlignment(Pos.CENTER);
+946                 HBox hbox7 = new HBox();
+947                 hbox7.setAlignment(Pos.CENTER);
+948                 HBox hbox8 = new HBox();
+949                 hbox8.setAlignment(Pos.CENTER);
+950                 hbox6.getChildren().addAll(postotak1, postotak2);
+951                 Label help = new Label("   ");
+952                 hbox7.getChildren().addAll(progressBar1, help, progressBar2);
+953                 hbox8.getChildren().addAll(postotakBroj1, postotakBroj2);
+954 
+955                 VBox vbox3 = new VBox();
+956                 vbox3.setAlignment(Pos.CENTER);
+957                 vbox3.setId("grupa");
+958                 VBox vbox4 = new VBox();
+959                 vbox4.setAlignment(Pos.CENTER);
+960                 vbox4.setId("grupa");
+961                 VBox vbox5 = new VBox();
+962                 vbox5.setAlignment(Pos.CENTER);
+963                 vbox5.setId("grupa");
+964 
+965                 vbox3.getChildren().addAll(naslov_tab1, hbox3, hbox6, hbox7, hbox8,
+966                                 process1);
+967                 vbox4.getChildren().addAll(naslov_tab2, hbox4, postotak3, progressBar3,
+968                                 postotakBroj3, process2);
+969                 vbox5.getChildren().addAll(naslov_tab3, hbox5, postotak4, progressBar4,
+970                                 postotakBroj4, process3);
+971                 
+972                 dataIn1.setId("center_button");
+973                 dataIn2.setId("center_button");
+974                 dataIn3.setId("center_button");
+975                 dataOut1.setId("center_button");
+976                 dataOut2.setId("center_button");
+977                 dataOut3.setId("center_button");
+978                 datamask.setId("center_button");
+979                 process1.setId("center_button");
+980                 process2.setId("center_button");
+981                 process3.setId("center_button");
+982                 
+983                 naslov_tab1.setId("all_text_naslov");
+984                 naslov_tab2.setId("all_text_naslov");
+985                 naslov_tab3.setId("all_text_naslov");
+986                 postotak1.setId("all_text");
+987                 postotak2.setId("all_text");
+988                 postotak3.setId("all_text");
+989                 postotak4.setId("all_text");
+990                 postotakBroj1.setId("all_text");
+991                 postotakBroj2.setId("all_text");
+992                 postotakBroj3.setId("all_text");
+993                 postotakBroj4.setId("all_text");
+994                 
+995                 formatting.setContent(vbox3);
+996                 formatting.setClosable(false);
+997                 masking.setContent(vbox4);
+998                 masking.setClosable(false);
+999                 ndvi.setContent(vbox5);
+1000                 ndvi.setClosable(false);
+1001 
+1002                 tabPane.getTabs().addAll(formatting, masking, ndvi);
+1003                 tabPane.setTabMinWidth(60);
+1004                 tabPane.setTabMinHeight(25);
+1005 
+1006                 // other boxs
+1007                 hbox2.setId("hbox");
+1008                 hbox2.setAlignment(Pos.CENTER);
+1009                 hbox1.setId("hbox");
+1010                 hbox1.setAlignment(Pos.CENTER_RIGHT);
+1011 
+1012                 // border pane!
+1013                 BorderPane border = new BorderPane();
+1014                 border.setTop(hbox2);
+1015                 border.setCenter(vbox2);
+1016                 border.setBottom(hbox1);
+1017                 border.setLeft(tabPane);
+1018 
+1019                 // Group
+1020                 Group root = new Group();
+1021                 Scene scene = new Scene(root, 600, 500);
+1022                 border.prefHeightProperty().bind(scene.heightProperty());
+1023                 border.prefWidthProperty().bind(scene.widthProperty());
+1024                 root.getChildren().add(border);
+1025                 primaryStage.setScene(scene);
+1026                 scene.getStylesheets().add(
+1027                                 this.getClass().getResource("stile.css").toExternalForm());
+1028                 primaryStage.show();
+1029         }
+1030 }
