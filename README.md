@@ -18,24 +18,24 @@ Application is divided in two parts, one is code in Java programming language an
 
 Code does not have a lot of comments. 
 
-Application have 4 main parts, 4 operations:
+###Application have 4 main parts, 4 operations:
 
-- ###format changes
+- **format changes**
 
 > Changing the format using GDAL from .hdf to .gtiff – result are three channels,
 and then using SAGA (System for Automated Geoscientific Analyses) changing
 format to .sgrd.
 
-- ###masking
+- **masking**
 
 > Cutting raster into selected area - only the first two channels, using SAGA.
 
-- ###NDVI
+- **NDVI**
 
 > In the end, application calculate NDVI (Normalized Difference Vegetation Index)
 from the first two channels.
 
-- ###save process to pdf
+- **save process to pdf**
 
 > Any part of the process can be saved in .pdf format - stores date / time of
 processing, first and last name of raster, applied operations, the number of rasters
